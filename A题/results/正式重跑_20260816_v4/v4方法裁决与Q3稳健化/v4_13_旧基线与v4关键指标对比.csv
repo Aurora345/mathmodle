@@ -1,0 +1,8 @@
+category,metric,baseline_name,baseline_value,v4_name,v4_value,relative_change_percent,better_direction,improved
+EOL结构,151-200 SOH RMSE,n0=21|power,0.0004851667364053384,n0=31|centered_quadratic,0.0004535910159644203,-6.508220385195113,lower,True
+EOL结构,EOL更新中位相对差,n0=21|power,0.19765938258200494,n0=31|centered_quadratic,0.11766065275437351,-40.473024241306405,lower,True
+EOL结构,EOL更新平均相对差,n0=21|power,0.2295258088774769,n0=31|centered_quadratic,0.3066017281873166,33.58050220443122,lower,False
+EOL结构,EOL排序Spearman,n0=21|power,0.9200750469043153,n0=31|centered_quadratic,0.8472795497185742,-7.91190864600326,higher,False
+部分池化,嵌套LOBO更新中位相对差,individual,0.11766065275437351,partial_pool,0.0672330465865643,-42.858513009511405,lower,True
+部分池化,嵌套LOBO更新平均相对差,individual,0.3066017281873166,partial_pool,0.17986313735737688,-41.3365546173665,lower,True
+加速度,未来斜率RMSE,Direct_zero_delta,1.372445671629369e-05,Global_mean_delta,1.0294663221852617e-05,-24.990377144540947,lower,True

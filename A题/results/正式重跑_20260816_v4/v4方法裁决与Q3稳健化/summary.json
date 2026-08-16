@@ -1,0 +1,203 @@
+{
+  "source_results": "results\\正式重跑_20260816_v4",
+  "selection_rule": "151-200 mean battery MSE one-SE; then nonfinite, median EOL truncation update, boundary, complexity, n0",
+  "joint_selection": {
+    "selected_n0": 31,
+    "selected_model": "centered_quadratic",
+    "selected_metrics": {
+      "n0": 31,
+      "model": "centered_quadratic",
+      "N_batteries": 40,
+      "mean_battery_MSE": 2.0574480976363503e-07,
+      "SE_battery_MSE": 8.579780574499672e-08,
+      "pooled_RMSE": 0.0004535910159644203,
+      "pooled_MAE": 0.0002738190291470514,
+      "median_E200": 0.00038653767178259413,
+      "median_eol_relative_update": 0.11766065275437351,
+      "mean_eol_relative_update": 0.3066017281873166,
+      "eol_spearman_150_200": 0.8472795497185742,
+      "nonfinite_eol_count": 0,
+      "boundary_count": 2,
+      "one_SE_threshold": 2.4734285662494205e-07,
+      "eligible_one_SE": true,
+      "selected": true
+    },
+    "nested_selection_counts": {
+      "n0=21|centered_quadratic": 2,
+      "n0=31|centered_quadratic": 38
+    },
+    "nested_metrics": {
+      "outer_folds": 40.0,
+      "MAE": 0.00028501223078433957,
+      "RMSE": 0.00047279877805956287,
+      "median_E200": 0.00038653767178259413,
+      "median_eol_relative_update": 0.11766065275437351,
+      "mean_eol_relative_update": 0.3067913393023534
+    },
+    "baseline_nested_RMSE": 0.0004727987780595827,
+    "nested_RMSE_relative_change_percent": -4.196643033083092e-12
+  },
+  "partial_pooling": {
+    "scope": "Q3 test-cell EOL only; not Q1 baseline life",
+    "candidate_weights": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0
+    ],
+    "final_individual_weight": 0.75,
+    "nested_selected_weight_counts": {
+      "0.75": 40
+    },
+    "nested_individual_median": 0.11766065275437351,
+    "nested_pooled_median": 0.0672330465865643,
+    "nested_individual_mean": 0.3066017281873166,
+    "nested_pooled_mean": 0.17986313735737688
+  },
+  "acceleration": {
+    "selected_model": "Global_mean_delta",
+    "selected_RMSE": 1.0294663221852617e-05,
+    "selected_MAE": 7.213016448410265e-06,
+    "selected_sign_accuracy": 0.925,
+    "formal_eol_gate_used": false,
+    "all_models": [
+      {
+        "model": "Direct_zero_delta",
+        "complexity_order": 0,
+        "N": 40,
+        "future_slope_MAE": 9.891401620531627e-06,
+        "future_slope_RMSE": 1.372445671629369e-05,
+        "mean_future_slope_MSE": 1.88360712157419e-10,
+        "SE_future_slope_MSE": 5.943435628657865e-11,
+        "future_slope_spearman": 0.8630393996247656,
+        "acceleration_sign_accuracy": 0.075,
+        "one_SE_threshold": 1.586298713624117e-10,
+        "eligible_one_SE": false,
+        "selected_one_SE": false
+      },
+      {
+        "model": "Global_mean_delta",
+        "complexity_order": 1,
+        "N": 40,
+        "future_slope_MAE": 7.213016448410265e-06,
+        "future_slope_RMSE": 1.0294663221852617e-05,
+        "mean_future_slope_MSE": 1.0598009085136488e-10,
+        "SE_future_slope_MSE": 3.5845761649446014e-11,
+        "future_slope_spearman": 0.8587242026266417,
+        "acceleration_sign_accuracy": 0.925,
+        "one_SE_threshold": 1.586298713624117e-10,
+        "eligible_one_SE": true,
+        "selected_one_SE": true
+      },
+      {
+        "model": "Policy_mean_delta",
+        "complexity_order": 2,
+        "N": 40,
+        "future_slope_MAE": 6.096690415058409e-06,
+        "future_slope_RMSE": 1.0231300603130366e-05,
+        "mean_future_slope_MSE": 1.0467951203161577e-10,
+        "SE_future_slope_MSE": 5.395035933079593e-11,
+        "future_slope_spearman": 0.801688555347092,
+        "acceleration_sign_accuracy": 0.875,
+        "one_SE_threshold": 1.586298713624117e-10,
+        "eligible_one_SE": true,
+        "selected_one_SE": false
+      },
+      {
+        "model": "Ridge_SOH_Policy",
+        "complexity_order": 3,
+        "N": 40,
+        "future_slope_MAE": 6.989413576107806e-06,
+        "future_slope_RMSE": 1.0413887632431043e-05,
+        "mean_future_slope_MSE": 1.0844905562090024e-10,
+        "SE_future_slope_MSE": 4.060664194266311e-11,
+        "future_slope_spearman": 0.7968105065666042,
+        "acceleration_sign_accuracy": 0.9,
+        "one_SE_threshold": 1.586298713624117e-10,
+        "eligible_one_SE": true,
+        "selected_one_SE": false
+      }
+    ]
+  },
+  "comparison": [
+    {
+      "category": "EOL结构",
+      "metric": "151-200 SOH RMSE",
+      "baseline_name": "n0=21|power",
+      "baseline_value": 0.0004851667364053384,
+      "v4_name": "n0=31|centered_quadratic",
+      "v4_value": 0.0004535910159644203,
+      "relative_change_percent": -6.508220385195113,
+      "better_direction": "lower",
+      "improved": true
+    },
+    {
+      "category": "EOL结构",
+      "metric": "EOL更新中位相对差",
+      "baseline_name": "n0=21|power",
+      "baseline_value": 0.19765938258200494,
+      "v4_name": "n0=31|centered_quadratic",
+      "v4_value": 0.11766065275437351,
+      "relative_change_percent": -40.473024241306405,
+      "better_direction": "lower",
+      "improved": true
+    },
+    {
+      "category": "EOL结构",
+      "metric": "EOL更新平均相对差",
+      "baseline_name": "n0=21|power",
+      "baseline_value": 0.2295258088774769,
+      "v4_name": "n0=31|centered_quadratic",
+      "v4_value": 0.3066017281873166,
+      "relative_change_percent": 33.58050220443122,
+      "better_direction": "lower",
+      "improved": false
+    },
+    {
+      "category": "EOL结构",
+      "metric": "EOL排序Spearman",
+      "baseline_name": "n0=21|power",
+      "baseline_value": 0.9200750469043153,
+      "v4_name": "n0=31|centered_quadratic",
+      "v4_value": 0.8472795497185742,
+      "relative_change_percent": -7.91190864600326,
+      "better_direction": "higher",
+      "improved": false
+    },
+    {
+      "category": "部分池化",
+      "metric": "嵌套LOBO更新中位相对差",
+      "baseline_name": "individual",
+      "baseline_value": 0.11766065275437351,
+      "v4_name": "partial_pool",
+      "v4_value": 0.0672330465865643,
+      "relative_change_percent": -42.858513009511405,
+      "better_direction": "lower",
+      "improved": true
+    },
+    {
+      "category": "部分池化",
+      "metric": "嵌套LOBO更新平均相对差",
+      "baseline_name": "individual",
+      "baseline_value": 0.3066017281873166,
+      "v4_name": "partial_pool",
+      "v4_value": 0.17986313735737688,
+      "relative_change_percent": -41.3365546173665,
+      "better_direction": "lower",
+      "improved": true
+    },
+    {
+      "category": "加速度",
+      "metric": "未来斜率RMSE",
+      "baseline_name": "Direct_zero_delta",
+      "baseline_value": 1.372445671629369e-05,
+      "v4_name": "Global_mean_delta",
+      "v4_value": 1.0294663221852617e-05,
+      "relative_change_percent": -24.990377144540947,
+      "better_direction": "lower",
+      "improved": true
+    }
+  ],
+  "claim_boundary": "No true 80% EOL labels; EOL metrics are truncation-stability diagnostics, not true lifetime accuracy."
+}

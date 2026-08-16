@@ -1,0 +1,3 @@
+candidate,mean_battery_MSE,best_candidate,best_SE,one_SE_threshold,eligible_one_SE,selected_one_SE
+TS_ONLY,2.797118619952076e-07,TS_ONLY,9.92713984118607e-08,3.789832604070683e-07,True,True
+D_ONLY,4.5297669202646363e-07,TS_ONLY,9.92713984118607e-08,3.789832604070683e-07,False,False

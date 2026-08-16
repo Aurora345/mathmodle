@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='453.54pt' height='269.29pt' viewBox='0 0 453.54 269.29'>
+<g class='svglite'>
+<defs>
+  <style type='text/css'><![CDATA[
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+    .svglite text {
+      white-space: pre;
+    }
+    .svglite g.glyphgroup path {
+      fill: inherit;
+      stroke: none;
+    }
+  ]]></style>
+</defs>
+<rect width='100%' height='100%' style='stroke: none; fill: #FFFFFF;'/>
+<defs>
+  <clipPath id='cpMC4wMHw0NTMuNTR8MC4wMHwyNjkuMjk='>
+    <rect x='0.00' y='0.00' width='453.54' height='269.29' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpMC4wMHw0NTMuNTR8MC4wMHwyNjkuMjk=)'>
+<rect x='0.00' y='0.000000000000057' width='453.54' height='269.29' style='stroke-width: 0.87; stroke: #FFFFFF; fill: #FFFFFF;' />
+</g>
+<defs>
+  <clipPath id='cpNDguMzJ8NDQ1LjU3fDM0LjQ2fDIxMS40OA=='>
+    <rect x='48.32' y='34.46' width='397.25' height='177.02' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpNDguMzJ8NDQ1LjU3fDM0LjQ2fDIxMS40OA==)'>
+<rect x='48.32' y='34.46' width='397.25' height='177.02' style='stroke-width: 0.87; stroke: none; fill: #FFFFFF;' />
+<polyline points='66.38,73.60 156.66,152.63 246.95,172.30 337.23,173.99 427.52,203.43 ' style='stroke-width: 1.92; stroke: #2A9D8F; stroke-linecap: butt;' />
+<polyline points='66.38,42.50 156.66,117.99 246.95,149.92 337.23,165.05 427.52,195.39 ' style='stroke-width: 1.92; stroke: #3B6FB6; stroke-linecap: butt;' />
+<circle cx='66.38' cy='73.60' r='2.64' style='stroke-width: 0.58; stroke: #2A9D8F; fill: #2A9D8F;' />
+<circle cx='156.66' cy='152.63' r='2.64' style='stroke-width: 0.58; stroke: #2A9D8F; fill: #2A9D8F;' />
+<circle cx='246.95' cy='172.30' r='2.64' style='stroke-width: 0.58; stroke: #2A9D8F; fill: #2A9D8F;' />
+<circle cx='337.23' cy='173.99' r='2.64' style='stroke-width: 0.58; stroke: #2A9D8F; fill: #2A9D8F;' />
+<circle cx='427.52' cy='203.43' r='2.64' style='stroke-width: 0.58; stroke: #2A9D8F; fill: #2A9D8F;' />
+<circle cx='66.38' cy='42.50' r='2.64' style='stroke-width: 0.58; stroke: #3B6FB6; fill: #3B6FB6;' />
+<circle cx='156.66' cy='117.99' r='2.64' style='stroke-width: 0.58; stroke: #3B6FB6; fill: #3B6FB6;' />
+<circle cx='246.95' cy='149.92' r='2.64' style='stroke-width: 0.58; stroke: #3B6FB6; fill: #3B6FB6;' />
+<circle cx='337.23' cy='165.05' r='2.64' style='stroke-width: 0.58; stroke: #3B6FB6; fill: #3B6FB6;' />
+<circle cx='427.52' cy='195.39' r='2.64' style='stroke-width: 0.58; stroke: #3B6FB6; fill: #3B6FB6;' />
+</g>
+<g clip-path='url(#cpMC4wMHw0NTMuNTR8MC4wMHwyNjkuMjk=)'>
+<polyline points='48.32,211.48 48.32,34.46 ' style='stroke-width: 0.75; stroke-linecap: square;' />
+<text x='44.29' y='178.19' text-anchor='end' style='font-size: 8.50px;fill: #262626; font-family: "Microsoft YaHei";' textLength='26.97px' lengthAdjust='spacingAndGlyphs'>0.0010</text>
+<text x='44.29' y='134.85' text-anchor='end' style='font-size: 8.50px;fill: #262626; font-family: "Microsoft YaHei";' textLength='26.97px' lengthAdjust='spacingAndGlyphs'>0.0020</text>
+<text x='44.29' y='91.50' text-anchor='end' style='font-size: 8.50px;fill: #262626; font-family: "Microsoft YaHei";' textLength='26.97px' lengthAdjust='spacingAndGlyphs'>0.0030</text>
+<text x='44.29' y='48.16' text-anchor='end' style='font-size: 8.50px;fill: #262626; font-family: "Microsoft YaHei";' textLength='26.97px' lengthAdjust='spacingAndGlyphs'>0.0040</text>
+<polyline points='46.08,174.97 48.32,174.97 ' style='stroke-width: 0.75; stroke-linecap: butt;' />
+<polyline points='46.08,131.63 48.32,131.63 ' style='stroke-width: 0.75; stroke-linecap: butt;' />
+<polyline points='46.08,88.28 48.32,88.28 ' style='stroke-width: 0.75; stroke-linecap: butt;' />
+<polyline points='46.08,44.94 48.32,44.94 ' style='stroke-width: 0.75; stroke-linecap: butt;' />
+<polyline points='48.32,211.48 445.57,211.48 ' style='stroke-width: 0.75; stroke-linecap: square;' />
+<polyline points='66.38,213.72 66.38,211.48 ' style='stroke-width: 0.75; stroke-linecap: butt;' />
+<polyline points='156.66,213.72 156.66,211.48 ' style='stroke-width: 0.75; stroke-linecap: butt;' />
+<polyline points='246.95,213.72 246.95,211.48 ' style='stroke-width: 0.75; stroke-linecap: butt;' />
+<polyline points='337.23,213.72 337.23,211.48 ' style='stroke-width: 0.75; stroke-linecap: butt;' />
+<polyline points='427.52,213.72 427.52,211.48 ' style='stroke-width: 0.75; stroke-linecap: butt;' />
+<text x='66.38' y='221.95' text-anchor='middle' style='font-size: 8.50px;fill: #262626; font-family: "Microsoft YaHei";' textLength='9.97px' lengthAdjust='spacingAndGlyphs'>50</text>
+<text x='156.66' y='221.95' text-anchor='middle' style='font-size: 8.50px;fill: #262626; font-family: "Microsoft YaHei";' textLength='9.97px' lengthAdjust='spacingAndGlyphs'>75</text>
+<text x='246.95' y='221.95' text-anchor='middle' style='font-size: 8.50px;fill: #262626; font-family: "Microsoft YaHei";' textLength='14.95px' lengthAdjust='spacingAndGlyphs'>100</text>
+<text x='337.23' y='221.95' text-anchor='middle' style='font-size: 8.50px;fill: #262626; font-family: "Microsoft YaHei";' textLength='14.95px' lengthAdjust='spacingAndGlyphs'>125</text>
+<text x='427.52' y='221.95' text-anchor='middle' style='font-size: 8.50px;fill: #262626; font-family: "Microsoft YaHei";' textLength='14.95px' lengthAdjust='spacingAndGlyphs'>150</text>
+<text x='246.95' y='233.17' text-anchor='middle' style='font-size: 9.00px; font-family: "Microsoft YaHei";' textLength='99.00px' lengthAdjust='spacingAndGlyphs'>可见早期循环长度（圈）</text>
+<text transform='translate(12.79,122.97) rotate(-90)' text-anchor='middle' style='font-size: 9.00px; font-family: "Microsoft YaHei";' textLength='54.00px' lengthAdjust='spacingAndGlyphs'>留一电池误差</text>
+<rect x='197.77' y='244.43' width='98.37' height='18.89' style='stroke-width: 0.87; stroke: none; fill: #FFFFFF;' />
+<rect x='202.25' y='248.91' width='17.28' height='9.92' style='stroke-width: 0.87; stroke: none; fill: #FFFFFF;' />
+<line x1='203.98' y1='253.87' x2='217.80' y2='253.87' style='stroke-width: 1.92; stroke: #2A9D8F; stroke-linecap: butt;' />
+<circle cx='210.89' cy='253.87' r='2.64' style='stroke-width: 0.58; stroke: #2A9D8F; fill: #2A9D8F;' />
+<rect x='247.01' y='248.91' width='17.28' height='9.92' style='stroke-width: 0.87; stroke: none; fill: #FFFFFF;' />
+<line x1='248.74' y1='253.87' x2='262.56' y2='253.87' style='stroke-width: 1.92; stroke: #3B6FB6; stroke-linecap: butt;' />
+<circle cx='255.65' cy='253.87' r='2.64' style='stroke-width: 0.58; stroke: #3B6FB6; fill: #3B6FB6;' />
+<text x='224.01' y='257.01' style='font-size: 8.30px; font-family: "Microsoft YaHei";' textLength='18.52px' lengthAdjust='spacingAndGlyphs'>MAE</text>
+<text x='268.77' y='257.01' style='font-size: 8.30px; font-family: "Microsoft YaHei";' textLength='22.88px' lengthAdjust='spacingAndGlyphs'>RMSE</text>
+<text x='48.32' y='27.73' style='font-size: 8.80px;fill: #747474; font-family: "Microsoft YaHei";' textLength='219.31px' lengthAdjust='spacingAndGlyphs'>固定模型：近期Theil--Sen趋势外推；L=150由题设确定</text>
+<text x='48.32' y='13.92' style='font-size: 10.50px; font-weight: bold; font-family: "Microsoft YaHei";' textLength='147.00px' lengthAdjust='spacingAndGlyphs'>更多早期循环显著降低预测误差</text>
+</g>
+</g>
+</svg>

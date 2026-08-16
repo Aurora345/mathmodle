@@ -1,0 +1,62 @@
+{
+  "source_results": "results\\正式重跑_20260816_v4",
+  "time_model": {
+    "N_strategies": 9,
+    "median_residual_min": 0.05106980848862541,
+    "MAE_min": 0.15276800695964196,
+    "max_abs_error_min": 1.0383845833333485,
+    "spearman": 0.6302743551120135
+  },
+  "empirical_pareto_policies": [
+    "4_8C_80PER_4_8C_NEWSTRUCTURE",
+    "5_3C_54PER_4C_NEWSTRUCTURE",
+    "5_6C_36PER_4_3C_NEWSTRUCTURE"
+  ],
+  "time_budget_min": 10.013207547169811,
+  "local_domain": {
+    "parameter_resolution": {
+      "C1_C": 0.1,
+      "Q1_percent": 1.0,
+      "C2_C": 0.1
+    },
+    "raw_convex_hull": true,
+    "AD_convex_hull": true,
+    "nearest_distance_threshold": 3.326006701358705,
+    "feasible_candidate_count": 597
+  },
+  "robust_optimization": {
+    "selection_bootstrap_draws": 5000,
+    "validation_bootstrap_draws": 5000,
+    "best_existing_policy": "5_3C_54PER_4C_NEWSTRUCTURE",
+    "optimized_candidate": {
+      "C1": 5.1,
+      "Q1": 45.0,
+      "C2": 4.5,
+      "T_theoretical_0_80": 9.960784313725492,
+      "A": 4.8374999999999995,
+      "D_50": -0.54,
+      "nearest_standardized_distance": 0.9302604339156701,
+      "selection_q50": 2.0641455376702344e-05,
+      "selection_q90": 2.2827931404199227e-05,
+      "selection_q95": 2.3430392980763173e-05
+    },
+    "validation_median_improvement": -2.4316652822910397e-07,
+    "validation_q90_candidate_minus_existing": 3.239970274645755e-06,
+    "validation_probability_candidate_better": 0.4714,
+    "q2_lopo_mae_resolution": 7.908315976318437e-06,
+    "recommend_new_candidate": false,
+    "final_recommendation": "5_3C_54PER_4C_NEWSTRUCTURE"
+  },
+  "q3_consistency": {
+    "N_policies": 9,
+    "stable_vs_future_observed_spearman": 0.75,
+    "stable_vs_future_observed_p": 0.019942126131992536,
+    "stable_vs_future_oof_spearman": 0.8333333333333333,
+    "stable_vs_future_oof_p": 0.005265691029161747,
+    "recommended_policy": "5_3C_54PER_4C_NEWSTRUCTURE",
+    "recommended_future_observed_rate": 3.415216201624771e-05,
+    "recommended_future_oof_rate": 3.870643375472493e-05,
+    "recommended_future_observed_rank": 2.0
+  },
+  "claim_boundary": "The optimized local candidate is an interpolation hypothesis. Q3 can update it only after 150 observed cycles; no true 80% EOL labels are available."
+}
