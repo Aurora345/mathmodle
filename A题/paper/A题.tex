@@ -11,10 +11,13 @@
 \usepackage{array}
 \usepackage{multirow}
 \usepackage{longtable}
-\usepackage{xcolor}
+\usepackage[table]{xcolor}
 \usepackage{hyperref}
-\graphicspath{{figures_generated_v4/}}
+\graphicspath{{figures_generated_v5/}}
 \hypersetup{colorlinks=true,linkcolor=black,citecolor=black,urlcolor=blue}
+\definecolor{TableHeader}{HTML}{DCEAF7}
+\definecolor{TableAlt}{HTML}{EEF5FB}
+\definecolor{TableAccent}{HTML}{4C78A8}
 
 \title{基于稳健趋势外推、策略级推断与局部鲁棒优化的锂离子电池快充研究}
 \tihao{A}
@@ -82,9 +85,10 @@
 
 \begin{table}[H]
 \centering
-\caption{主要符号说明}
+\rowcolors{2}{TableAlt}{white}
 \begin{tabularx}{\textwidth}{lX}
 \toprule
+\rowcolor{TableHeader}
 符号 & 含义 \\
 \midrule
 $Q_{i,0}$ & \texttt{battery\_summary.csv}中电池$i$的初始容量 \\
@@ -113,6 +117,7 @@ $Q_\alpha(\cdot)$ & 样本经验分布的$\alpha$分位数 \\
 \bottomrule
 \end{tabularx}
 \end{table}
+\refstepcounter{table}
 
 \section{统一预处理与评价设计}
 
@@ -138,8 +143,7 @@ S_{i,n}^{\mathrm{raw}}=\frac{Q_{i,n}}{Q_{i,0}}.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.94\textwidth]{fig1_preprocess.pdf}
-\caption{容量异常修复与SOH平滑示例}
-\label{fig:preprocess}
+\refstepcounter{figure}\label{fig:preprocess}
 \end{figure}
 
 \subsection{早期退化指标}
@@ -156,8 +160,7 @@ T_i&=\operatorname{median}_{1\le n\le150}t_{i,n}.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.98\textwidth]{fig2_policy_soh.pdf}
-\caption{九种快充策略的第1--150圈SOH轨迹}
-\label{fig:policysoh}
+\refstepcounter{figure}\label{fig:policysoh}
 \end{figure}
 
 \subsection{统一验证原则}
@@ -171,6 +174,14 @@ T_i&=\operatorname{median}_{1\le n\le150}t_{i,n}.
 第一问先用每块训练电池第1--150圈拟合、第151--200圈作开发阶段结构比较，再以外层LOBO评价完整选型流程；第三问同样采用外层LOBO，并在每个外层训练集内重新选择趋势基线、特征组、PCA维数和Ridge参数。除短期误差外，还检查参数贴边、单电池误差和远期外推敏感性。外推寿命与$S_{150}$、$k^{\TS}$和AUC的秩一致性只作为辅助诊断：由于线性寿命与线性斜率存在结构性联系，该指标不能作为偏向线性模型的硬判据。
 
 \section{问题一：策略比较与基准寿命估计}
+
+问题一先统一完成异常识别、SOH重算与平滑，再从共同观测窗口提取稳健退化指标，并通过“稳定起点--退化结构”联合验证得到基准寿命。完整求解链如图\ref{fig:workflowq1}所示，图中把数据清洗、指标构造、样本外选型与策略比较放在同一证据链中，避免将远期EOL外推与前150圈直接观测混为一谈。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.98\textwidth]{fig_workflow_q1.pdf}
+\refstepcounter{figure}\label{fig:workflowq1}
+\end{figure}
 
 \subsection{稳定段、候选结构与寿命公式推导}
 
@@ -234,10 +245,11 @@ r_g^{\mathrm{stable}}=\operatorname{median}_{i\in g}r_i^{\mathrm{stable}}.
 
 \begin{table}[H]
 \centering
-\caption{稳定起点与退化结构的开发阶段比较}
 \resizebox{\textwidth}{!}{%
+\rowcolors{2}{TableAlt}{white}
 \begin{tabular}{rrrrrl}
 \toprule
+\rowcolor{TableHeader}
 $n_0$ & 线性RMSE & 幂律RMSE & 中心二次RMSE & 中心二次EOL更新中位数 & 说明 \\
 \midrule
 11 & 0.001254 & 0.000704 & 0.000579 & 8.48\% &  \\
@@ -248,25 +260,23 @@ $n_0$ & 线性RMSE & 幂律RMSE & 中心二次RMSE & 中心二次EOL更新中位
 \bottomrule
 \end{tabular}
 }
-\label{tab:q1models}
+\refstepcounter{table}\label{tab:q1models}
 \end{table}
 
-开发集最低误差来自$n_0=31$幂律，但$n_0=31$中心化二次同处one-SE近优集合，且EOL截断更新中位数为11.77\%，明显低于同起点幂律的19.74\%，故按冻结规则正式选择$n_0=31$中心化二次。外层每次留出一块训练电池，并仅在其余39块内重复全部选择：38折选择$n_0=31$中心化二次，2折选择$n_0=21$中心化二次，外层$\MAE=0.000285$、$\RMSE=0.000473$。相较旧$n_0=21$幂律的真正嵌套$\RMSE=0.000483$，下降约2.09\%；图\ref{fig:modelselect}同时给出开发阶段候选与外层频次。
+开发集最低误差来自$n_0=31$幂律，但$n_0=31$中心化二次同处one-SE近优集合，且EOL截断更新中位数为11.77\%，明显低于同起点幂律的19.74\%，故按冻结规则正式选择$n_0=31$中心化二次。外层每次留出一块训练电池，并仅在其余39块内重复全部选择：38折选择$n_0=31$中心化二次，2折选择$n_0=21$中心化二次，外层$\MAE=0.000285$、$\RMSE=0.000473$。相较旧$n_0=21$幂律的真正嵌套$\RMSE=0.000483$，下降约2.09\%；图\ref{fig:modelselect}同时给出开发阶段候选与外层频次。热图把15个“稳定起点--退化结构”组合放到同一色阶中，可见线性结构在各起点下的误差整体更高；$n_0=31$中心化二次虽不是开发集绝对最小误差点，却位于一标准误近优区域，并在外层40折中有38折被重新选择，说明其优势主要来自“近期预测误差、远期稳定性与复杂度”的综合平衡，而非单次拟合最优。
 
 这里$n_0=31$表示从该位置开始，各电池总体稳健趋势适合由统一下降结构描述；它不表示所有电池在第31圈后逐点严格单调，更不表示某个电化学过程在该圈绝对结束。图\ref{fig:q1fitshape}在稳定退化速率10\%、50\%和90\%分位附近各取一块完整电池，显示三类候选的实际拟合形态。
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.98\textwidth]{fig4_model_selection.pdf}
-\caption{稳定段起点与退化结构的联合选择}
-\label{fig:modelselect}
+\refstepcounter{figure}\label{fig:modelselect}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.99\textwidth]{fig4b_q1_fit_shapes.pdf}
-\caption{$n_0=31$下线性、幂律与中心化单调二次的实际拟合形态}
-\label{fig:q1fitshape}
+\refstepcounter{figure}\label{fig:q1fitshape}
 \end{figure}
 
 用前150圈和前200圈分别按同一中心化二次结构外推，40块完整电池的EOL相对更新中位数为11.77\%，但均值达到30.66\%，Spearman相关仅0.847。旧$n_0=21$幂律的对应三项为19.77\%、22.95\%和0.920。故新结构改善了典型电池的截断稳定性与近期样本外拟合，却没有全面改善尾部漂移和跨电池排序；少数电池仍可能产生较大远期变化。本文据此只称其为更平衡的内部外推结构，不把交点视为已观测真实寿命。
@@ -278,10 +288,11 @@ $n_0$ & 线性RMSE & 幂律RMSE & 中心二次RMSE & 中心二次EOL更新中位
 \begin{table}[H]
 \centering
 \small
-\caption{九种快充策略的早期指标与中心化二次基准EOL}
 \resizebox{\textwidth}{!}{
+\rowcolors{2}{TableAlt}{white}
 \begin{tabular}{lrrrrr}
 \toprule
+\rowcolor{TableHeader}
 策略 & $N$ & $S_{150}$ & $10^4r^{\mathrm{stable}}$ & AUC & EOL中位数/圈 \\
 \midrule
 4.8C--80\%--4.8C（新结构） & 6 & 0.99802 & 0.181 & 0.99902 & 1775 \\
@@ -295,24 +306,26 @@ $n_0$ & 线性RMSE & 幂律RMSE & 中心二次RMSE & 中心二次EOL更新中位
 4.8C--80\%--4.8C & 3 & 0.99021 & 0.849 & 0.99662 & 640 \\
 \bottomrule
 \end{tabular}}
-\label{tab:q1policy}
+\refstepcounter{table}\label{tab:q1policy}
 \end{table}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.95\textwidth]{fig5_life_distribution.pdf}
-\caption{不同策略的中心化二次基准EOL分布（对数轴）}
-\label{fig:lifedist}
+\refstepcounter{figure}\label{fig:lifedist}
 \end{figure}
+
+图\ref{fig:lifedist}采用小提琴密度、四分位区间与电池级散点同时展示策略内分布。对数横轴下，4.8C--80\%--4.8C新结构整体位于更长寿命一侧，而同参数原结构集中在较短寿命区域；部分新结构策略存在较长右尾，说明仅比较均值会掩盖小样本策略内的外推离散性，因此正文排序以中位数并结合早期稳定退化指标共同判断。
 
 题目要求提取典型长、短寿命策略。按问题一统一的中心化二次EOL口径，\textbf{正式典型长寿命策略为4.8C--80\%--4.8C新结构}：其策略级EOL中位数最高，且稳定退化速率、$S_{150}$和AUC三项早期指标也均排第1。4.8C--80\%--4.8C原结构的EOL最短，且三项早期指标整体较差，方向一致，故称为典型短寿命策略。两者来自不同数据集/结构类别，因此只能作综合表现对照，不能将差异归因于同一组数值参数。
 
 \begin{table}[H]
 \centering
 \small
-\caption{正式典型长寿命与典型短寿命策略的描述性对照}
+\rowcolors{2}{TableAlt}{white}
 \begin{tabular}{lrr}
 \toprule
+\rowcolor{TableHeader}
 指标 & 正式典型长寿命 & 典型短寿命 \\
 \midrule
 策略 & 4.8C--80\%--4.8C新 & 4.8C--80\%--4.8C \\
@@ -326,7 +339,7 @@ EOL中位数/圈 & 1775 & 640 \\
 早期三指标排序 & 1/1/1 & 8/8/8 \\
 \bottomrule
 \end{tabular}
-\label{tab:longshortdetail}
+\refstepcounter{table}\label{tab:longshortdetail}
 \end{table}
 
 图\ref{fig:longshort}显示长寿命策略在第150圈保持更高SOH且稳定退化速率更低，和EOL排序同向；短寿命策略下降更快。两者跨数据集或结构，故问题一只比较综合表现，不把单个参数、温度或时间差解释为因果效应。
@@ -334,11 +347,18 @@ EOL中位数/圈 & 1775 & 640 \\
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.94\textwidth]{fig6_long_short.pdf}
-\caption{正式典型长寿命与典型短寿命策略的早期SOH对照}
-\label{fig:longshort}
+\refstepcounter{figure}\label{fig:longshort}
 \end{figure}
 
 \section{问题二：快充参数影响分析}
+
+问题二在九策略总体差异检验之后，进一步把原始$C_1,q,C_2$重参数化为总体倍率水平$A$与SOC区间暴露差$D$，并依次进行精确置换、留一策略位置验证、分界敏感性和机制通道审计。整体流程见图\ref{fig:workflowq2}；其中稳定退化速率始终作为直接观测主响应，基准EOL仅作辅助方向证据。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.98\textwidth]{fig_workflow_q2.pdf}
+\refstepcounter{figure}\label{fig:workflowq2}
+\end{figure}
 
 \subsection{策略总体差异与事后比较}
 
@@ -404,16 +424,17 @@ p_{\mathrm{exact}}
 
 \begin{table}[H]
 \centering
-\caption{数据集3六种新结构策略的$A,D$主辅响应结果}
+\rowcolors{2}{TableAlt}{white}
 \begin{tabular}{lrrrr}
 \toprule
+\rowcolor{TableHeader}
 响应 & $\beta_A$ & $\beta_D$ & 精确$p$ & LOPO方向稳定性 \\
 \midrule
 $r^{\mathrm{stable}}$（主） & $4.02\times10^{-5}$ & $2.82\times10^{-5}$ & $13/720$ & 6/6、6/6为正 \\
 $L$（辅助） & $-235.4$ & $-74.3$ & $33/720$ & 6/6、6/6为负 \\
 \bottomrule
 \end{tabular}
-\label{tab:q2reg}
+\refstepcounter{table}\label{tab:q2reg}
 \end{table}
 
 辅助EOL回归为$L=1496.8-235.4A^*-74.3D^*$，$R^2=0.952$、调整$R^2=0.920$，精确$p=33/720=0.0458$。然而$\beta_A$与$\beta_D$的Bootstrap区间分别为$[-1921.7,534.9]$和$[-1110.5,1171.5]$，均跨0；LOPO虽六折方向均为负，定量预测Spearman仅0.371、RMSE为133圈。因此它只提供方向辅助，不足以证明参数对真实寿命的显著作用。
@@ -429,8 +450,7 @@ $L$（辅助） & $-235.4$ & $-74.3$ & $33/720$ & 6/6、6/6为负 \\
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.94\textwidth]{fig7_soc_sensitivity.pdf}
-\caption{SOC分界变化下倍率暴露与稳定退化速率的关联}
-\label{fig:socsens}
+\refstepcounter{figure}\label{fig:socsens}
 \end{figure}
 
 \subsection{可能机制及证据边界}
@@ -439,9 +459,10 @@ $L$（辅助） & $-235.4$ & $-74.3$ & $33/720$ & 6/6、6/6为负 \\
 
 \begin{table}[H]
 \centering
-\caption{倍率暴露与观测退化通道的策略级相关（$n=6$）}
+\rowcolors{2}{TableAlt}{white}
 \begin{tabular}{llrr}
 \toprule
+\rowcolor{TableHeader}
 解释量 & 响应量 & $\rho$ & 未校正$p$值 \\
 \midrule
 $A$ & 负SOH斜率 & 0.667 & 0.148 \\
@@ -452,7 +473,7 @@ $E_H$ & 平均温度 & $-0.086$ & 0.872 \\
 平均温度 & 负SOH斜率 & 0.771 & 0.0724 \\
 \bottomrule
 \end{tabular}
-\label{tab:mechanism}
+\refstepcounter{table}\label{tab:mechanism}
 \end{table}
 
 平均倍率$A$与内阻增长、平均温度均呈正向关联，且温度与更快SOH衰减方向一致。这与较大充电电流可能伴随更强极化、热负荷和阻抗增长的解释相容；既有充电应力实验也观察到电流或截止状态变化会影响容量衰减和内阻增长\cite{gao2017}。但$E_H$与内阻、温度并无同向证据，故不能声称“中高SOC倍率已经通过升温或内阻增长导致寿命下降”。SOC位置效应目前只由稳定退化回归与分界敏感性支持，具体反应通道尚未识别。
@@ -460,6 +481,14 @@ $E_H$ & 平均温度 & $-0.086$ & 0.872 \\
 此外，快充影响具有电池体系和协议依赖性：在特定LiFePO$_4$多阶段快充条件下，也有研究观察到与标准充电相近的老化结果\cite{ansean2016}。本题只有六个策略位置，上述相关$p$值未作多重比较校正，且缺少逐段电压、电流和电化学诊断，因此机制部分应表述为“与可能机制一致的描述性线索”，而非中介效应或因果结论。
 
 \section{问题三：未来50圈SOH预测与寿命估计}
+
+问题三严格按“可见早期信息--样本外短期预测--远期结构审计”的层次展开：先比较简单趋势基线，再检验多维增强模型是否具有稳定增益，最后才把冻结的中心化二次结构用于EOL外推与同策略部分池化。图\ref{fig:workflowq3}给出无泄漏求解流程，并突出“短期SOH高精度不等于远期EOL高精度”的证据边界。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.98\textwidth]{fig_workflow_q3.pdf}
+\refstepcounter{figure}\label{fig:workflowq3}
+\end{figure}
 
 \subsection{预测任务和无泄漏验证}
 
@@ -512,9 +541,10 @@ SG导数基线则在每个中心$n$的11圈局部窗口上拟合二阶多项式
 \begin{table}[H]
 \centering
 \small
-\caption{问题三健康状态特征及消融分组}
+\rowcolors{2}{TableAlt}{white}
 \begin{tabularx}{\textwidth}{lXl}
 \toprule
+\rowcolor{TableHeader}
 分组 & 特征定义 & 作用 \\
 \midrule
 M1 & $\bar S_{\ell}$、SOH AUC、全局/近期Theil--Sen斜率及二者差值 & SOH水平与多尺度稳健趋势 \\
@@ -526,7 +556,7 @@ M3 & M2加温度、充电时间的中位状态、全局/近期斜率及差值 & 
 M4 & M3加九种策略哑变量 & 检验策略标签的边际信息 \\
 \bottomrule
 \end{tabularx}
-\label{tab:q3features}
+\refstepcounter{table}\label{tab:q3features}
 \end{table}
 
 增强模型先计算每块训练电池相对TS基线的50维未来残差
@@ -568,13 +598,12 @@ J(\mathbf B)=\|\mathbf Z-\mathbf X\mathbf B\|_F^2
 
 \subsection{模型选择、消融与信息贡献}
 
-在$\ell=150$的直接基线比较中，Persistence、OLS、TS和SG导数基线的RMSE依次为0.002233、0.0005343、0.0005289和0.0006730。TS只比OLS低约1.02\%，绝对差异很小。增强模型中M2的RMSE最低（0.000583），仍未超过TS；M3加入温度和充电时间后RMSE增至0.001882，M4加入策略标签后回落至0.000598，说明这些特征可解释部分残差，却没有形成稳定的样本外净收益。
+在$\ell=150$的直接基线比较中，Persistence、OLS、TS和SG导数基线的RMSE依次为0.002233、0.0005343、0.0005289和0.0006730。TS只比OLS低约1.02\%，绝对差异很小。增强模型中M2的RMSE最低（0.000583），仍未超过TS；M3加入温度和充电时间后RMSE增至0.001882，M4加入策略标签后回落至0.000598，说明这些特征可解释部分残差，却没有形成稳定的样本外净收益。图\ref{fig:ablation}改用雷达图汇总七组候选：半径越小表示RMSE越低，珊瑚色虚线环为TS基线。七个候选点均位于基线环外，其中M2最接近基线，直观说明增加特征后并未获得可重复的样本外精度优势。
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.94\textwidth]{fig9_ablation.pdf}
-\caption{开发阶段Trend--PCA--Ridge特征消融与趋势基线比较}
-\label{fig:ablation}
+\includegraphics[width=0.82\textwidth]{fig9_ablation.pdf}
+\refstepcounter{figure}\label{fig:ablation}
 \end{figure}
 
 对任一内层候选$m$，以电池为独立单位计算$e_{im}=\mathrm{MSE}_{im}$，并定义
@@ -587,9 +616,10 @@ J(\mathbf B)=\|\mathbf Z-\mathbf X\mathbf B\|_F^2
 
 \begin{table}[H]
 \centering
-\caption{完整嵌套LOBO的第151--200圈预测精度}
+\rowcolors{2}{TableAlt}{white}
 \begin{tabular}{lr}
 \toprule
+\rowcolor{TableHeader}
 指标 & 数值 \\
 \midrule
 外层模型选择 & TS\_ONLY，40/40折 \\
@@ -601,7 +631,7 @@ J(\mathbf B)=\|\mathbf Z-\mathbf X\mathbf B\|_F^2
 电池级RMSE中位数/90\%分位数/最大值 & 0.000277/0.000638/0.001841 \\
 \bottomrule
 \end{tabular}
-\label{tab:q3nested}
+\refstepcounter{table}\label{tab:q3nested}
 \end{table}
 
 因此，充电策略信息和IR在开发阶段可解释部分未来残差，但在严格模型选择后没有形成稳定的增量预测收益；温度和充电时间特征在当前样本规模下反而增加方差。对本题第151--200圈预测，最可靠的信息是电池自身最近30圈的实际SOH退化趋势。
@@ -610,9 +640,10 @@ J(\mathbf B)=\|\mathbf Z-\mathbf X\mathbf B\|_F^2
 
 \begin{table}[H]
 \centering
-\caption{不同早期循环长度下固定Theil--Sen基线的预测误差}
+\rowcolors{2}{TableAlt}{white}
 \begin{tabular}{rrr}
 \toprule
+\rowcolor{TableHeader}
 $\ell$/圈 & MAE & RMSE \\
 \midrule
 50 & 0.003339 & 0.004056 \\
@@ -622,14 +653,13 @@ $\ell$/圈 & MAE & RMSE \\
 150 & \textbf{0.000343} & \textbf{0.000529} \\
 \bottomrule
 \end{tabular}
-\label{tab:length}
+\refstepcounter{table}\label{tab:length}
 \end{table}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.92\textwidth]{fig8_length_accuracy.pdf}
-\caption{早期循环长度对第151--200圈预测误差的影响}
-\label{fig:length}
+\refstepcounter{figure}\label{fig:length}
 \end{figure}
 
 \subsection{测试电池预测与EOL外推}
@@ -639,8 +669,7 @@ $\ell$/圈 & MAE & RMSE \\
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.98\textwidth]{fig10_test_predictions.pdf}
-\caption{九块测试电池第151--200圈SOH预测}
-\label{fig:testpred}
+\refstepcounter{figure}\label{fig:testpred}
 \end{figure}
 
 将每块测试电池的前150圈观测与未来50圈预测合并，并严格继承问题一的$n_0=31$中心化单调二次结构：
@@ -674,10 +703,11 @@ C_ix_i^2+B_ix_i-(A_i-0.8)&=0
 \begin{table}[H]
 \centering
 \small
-\caption{九块测试电池的部分池化中心化二次EOL及残差块Bootstrap区间}
 \begin{threeparttable}
+\rowcolors{2}{TableAlt}{white}
 \begin{tabular}{clrr}
 \toprule
+\rowcolor{TableHeader}
 电池 & 快充策略 & 点估计/圈 & Bootstrap中位数及95\%区间/圈 \\
 \midrule
 2  & 3.6C--80\%--3.6C & 1651 & 1541 $[1115,2792]$ \\
@@ -696,25 +726,23 @@ C_ix_i^2+B_ix_i-(A_i-0.8)&=0
 \item 注：区间只反映训练电池第151--200圈预测残差传播到中心化二次交点并经固定权重收缩后的波动，未覆盖长期退化结构本身的不确定性；不能解释为真实EOL置信区间。
 \end{tablenotes}
 \end{threeparttable}
-\label{tab:testlife}
+\refstepcounter{table}\label{tab:testlife}
 \end{table}
 
 9号和16号电池的点估计较低，11号最高但区间仍宽，体现缓慢趋势与二次曲率经远距离外推后的放大效应。这里不使用任何外部真实寿命映射校正。
 
-在Q1的直接截断审计中，单电池中心化二次EOL的150--200圈更新中位数/均值为11.77\%/30.66\%，Spearman为0.847；同一外层框架加入25\%同策略收缩后，中位数/均值降至6.72\%/17.99\%。图\ref{fig:eolaudit}进一步比较“Q3预测到200圈”与“真实观察到200圈”后的同结构外推，中位相对差异为17.23\%、Spearman仅0.654。三项比较都只是内部稳定性审计，二者均不是真实EOL标签；它们明确说明99.965\%的短期SOH吻合度不能外推成99\%量级的寿命准确率。
+在Q1的直接截断审计中，单电池中心化二次EOL的150--200圈更新中位数/均值为11.77\%/30.66\%，Spearman为0.847；同一外层框架加入25\%同策略收缩后，中位数/均值降至6.72\%/17.99\%。图\ref{fig:pooling}用逐电池配对线和两侧小提琴密度显示，多数电池的截断更新误差在部分池化后向较低区域移动，且极端长尾明显收缩，表明稳健化并非由少数电池单点改善驱动。图\ref{fig:eolaudit}进一步比较“Q3预测到200圈”与“真实观察到200圈”后的同结构外推，中位相对差异为17.23\%、Spearman仅0.654。三项比较都只是内部稳定性审计，二者均不是真实EOL标签；它们明确说明99.965\%的短期SOH吻合度不能外推成99\%量级的寿命准确率。
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.90\textwidth]{fig12_eol_structure_audit.pdf}
-\caption{预测至200圈与观察至200圈后的中心化二次EOL结构审计}
-\label{fig:eolaudit}
+\refstepcounter{figure}\label{fig:eolaudit}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.90\textwidth]{fig12b_partial_pooling.pdf}
-\caption{同策略部分池化对EOL截断更新尾部的稳健化作用}
-\label{fig:pooling}
+\refstepcounter{figure}\label{fig:pooling}
 \end{figure}
 
 另定义近期斜率变化$\Delta k_i=k_i^{151:200}-k_i^{121:150}$。在直接延续、全体均值、同策略均值和Ridge四个辅助头中，全体均值与同策略均值同处one-SE近优集合，故按简约原则取
@@ -750,9 +778,10 @@ IR和温度的最优非平凡候选为全局锚定，充电时间为Policy锚定
 
 \begin{table}[H]
 \centering
-\caption{由冻结EOL推导的完整寿命均值与真实汇总量比较}
+\rowcolors{2}{TableAlt}{white}
 \begin{tabular}{lrrrr}
 \toprule
+\rowcolor{TableHeader}
 状态量 & MAE & 相对MAE & 平均偏差 & Spearman $\rho$ \\
 \midrule
 平均内阻 & 0.000206 & 1.261\% & $-0.000206$ & 1.000 \\
@@ -760,14 +789,13 @@ IR和温度的最优非平凡候选为全局锚定，充电时间为Policy锚定
 平均充电时间 & $0.535\,\mathrm{min}$ & 4.347\% & $-0.523\,\mathrm{min}$ & 0.583 \\
 \bottomrule
 \end{tabular}
-\label{tab:lifemeans}
+\refstepcounter{table}\label{tab:lifemeans}
 \end{table}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.99\textwidth]{fig11_life_summary_validation.pdf}
-\caption{完整寿命三均值的间接压力测试}
-\label{fig:lifemeans}
+\refstepcounter{figure}\label{fig:lifemeans}
 \end{figure}
 
 三通道相对吻合度$100\%-\mathrm{MAPE}$分别为98.739\%、98.249\%和95.653\%，但这些数字衡量的是完整寿命\emph{状态均值}，不是EOL圈数。Persistence关系使状态均值对寿命长度不敏感；即使IR和温度排序相关很高，也不能据此校准$\widehat L_i$。结合图\ref{fig:eolaudit}的17.23\%结构差异与仅0.654的排序相关，正确结论是：151--200圈短期SOH预测获得了直接标签支持，长期EOL仍缺少真实标签和可靠跨通道验证。
@@ -779,9 +807,10 @@ IR和温度的最优非平凡候选为全局锚定，充电时间为Policy锚定
 \begin{table}[H]
 \centering
 \footnotesize
-\caption{问题一至问题四逐问回答索引}
+\rowcolors{2}{TableAlt}{white}
 \begin{tabularx}{\textwidth}{cclX}
 \toprule
+\rowcolor{TableHeader}
 问题 & 小问 & 对应位置 & 明确回答 \\
 \midrule
 Q1 & 1 & 表\ref{tab:q1battery}、图\ref{fig:policysoh} & 逐电池列出策略、充电时间、SOH状态/斜率及寿命 \\
@@ -808,10 +837,18 @@ Q4 & 4 & 表\ref{tab:q4recommend} & 推荐N2，并与正式长寿命N6及短寿�
 Q4 & 5 & Q3一致性与风险小节 & 给出适用域、配对Bootstrap、短期未来审计及新策略实验要求 \\
 \bottomrule
 \end{tabularx}
-\label{tab:coverage}
+\refstepcounter{table}\label{tab:coverage}
 \end{table}
 
 \section{问题四：充电策略优化}
+
+问题四先在九种真实实验策略上建立观测时间--稳定退化的经验帕累托前沿，再把连续搜索严格限制在同类策略的局部数据支持域内，并用独立自助重采样检验新候选是否真正优于最佳已有策略。图\ref{fig:workflowq4}概括了从真实策略优选到局部鲁棒优化、再到最终推荐裁决的完整路径。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.98\textwidth]{fig_workflow_q4.pdf}
+\refstepcounter{figure}\label{fig:workflowq4}
+\end{figure}
 
 \subsection{优化目标、时间模型与主退化指标}
 
@@ -855,9 +892,10 @@ R_{g_1}\le R_{g_2},
 \begin{table}[H]
 \centering
 \footnotesize
-\caption{九种已有实验策略的观测时间--退化Pareto比较}
+\rowcolors{2}{TableAlt}{white}
 \begin{tabular}{clrrrrc}
 \toprule
+\rowcolor{TableHeader}
 代码 & 策略 & $N$ & $T_g^{\mathrm{obs}}$/min & $10^4R_g$ & 非支配频率 & 经验Pareto \\
 \midrule
 S1 & 3.6C--80\%--3.6C & 3 & 13.342 & 0.197 & 36.64\% & 否 \\
@@ -871,14 +909,13 @@ N5 & 5.6C--36\%--4.3C（新结构） & 8 & 10.043 & 0.273 & 57.42\% & 是 \\
 N6 & 4.8C--80\%--4.8C（新结构） & 6 & 11.038 & 0.181 & 69.10\% & 是 \\
 \bottomrule
 \end{tabular}
-\label{tab:q4pareto}
+\refstepcounter{table}\label{tab:q4pareto}
 \end{table}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.98\textwidth]{fig13_q4_empirical_pareto.pdf}
-\caption{九种真实实验策略的观测时间--稳定退化经验Pareto前沿}
-\label{fig:q4pareto}
+\refstepcounter{figure}\label{fig:q4pareto}
 \end{figure}
 
 精确支配下，N2、N5与N6构成三点前沿。N5比N2仅快$0.000147$ min（约0.009 s），但观测退化速率高21.6\%，这一时间差不具工程分辨意义；N6的观测退化速率比N2低18.8\%，代价是约0.995 min更长的记录时间。因此，在强调约10分钟快充时N2是更合理的已有策略；若可接受约1 min额外时间并优先压低直接观测退化，N6是备选。
@@ -946,38 +983,31 @@ J_{0.90}(\boldsymbol\theta)
 \end{equation}
 只有同时满足$Q_{0.90}(\Delta)<0$，且中位改善超过Q2策略级LOPO MAE，才把新点升级为正式推荐；这一裁决在查看验证结果前固定。
 
-局部搜索得到$\boldsymbol\theta^*=(5.1\mathrm C,45\%,4.5\mathrm C)$，其理论时间为9.9608 min，$A=4.8375$、$D=-0.540$、最近标准化距离为0.930。图\ref{fig:q4local}给出全部可行点与选择阶段目标。
+局部搜索得到$\boldsymbol\theta^*=(5.1\mathrm C,45\%,4.5\mathrm C)$，其理论时间为9.9608 min，$A=4.8375$、$D=-0.540$、最近标准化距离为0.930。图\ref{fig:q4local}左侧以三维参数空间展示597个可行网格及真实策略位置，并显式标出坐标原点$O(0,0,0)$；原点仅用于空间参照，不代表最优方向。右侧再映射到$(A,D)$空间并用等值热区表示退化预测的90\%分位数：由于问题二中$A,D$系数均为正，在当前局部模型内越靠近左下方（$A,D$更小）预测退化越慢，且颜色越浅表示90\%分位数越低。候选点处于已有设计邻域内，而非参数长方体边界的任意拼接。
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.98\textwidth]{fig14_q4_local_robust_search.pdf}
-\caption{双重凸包与时间约束下的局部鲁棒候选搜索}
-\label{fig:q4local}
+\refstepcounter{figure}\label{fig:q4local}
 \end{figure}
 
-独立验证中，N2与局部候选的预测分位数见表\ref{tab:q4robust}。候选的边际$Q_{0.90}$较低，但配对比较显示，其中位改善为$-2.43\times10^{-7}$，即候选中位预测反而略高；$P(\Delta<0)=47.1\%$，$Q_{0.90}(\Delta)=3.24\times10^{-6}>0$。这些差异也没有超过LOPO MAE $7.91\times10^{-6}$，故不满足新策略推荐门槛。
+独立验证中，N2与局部候选的预测分位数见表\ref{tab:q4robust}。候选的边际$Q_{0.90}$较低，但配对比较显示，其中位改善为$-2.43\times10^{-7}$，即候选中位预测反而略高；$P(\Delta<0)=47.1\%$，$Q_{0.90}(\Delta)=3.24\times10^{-6}>0$。这些差异也没有超过LOPO MAE $7.91\times10^{-6}$，故不满足新策略推荐门槛。换言之，5000次独立配对Bootstrap的差值分布跨越零点，左侧“候选更优”的概率仅47.1\%，而90\%分位数仍落在零点右侧，因此不升级为正式推荐。
 
 \begin{table}[H]
 \centering
 \small
-\caption{独立验证Bootstrap下的最佳已有策略与局部候选}
+\rowcolors{2}{TableAlt}{white}
 \begin{tabular}{lrrrrrrrr}
 \toprule
+\rowcolor{TableHeader}
 方案 & $C_1$ & $q$/\% & $C_2$ & $T^{\mathrm{theo}}$/min & $A$ & $D$ & $10^4Q_{0.50}$ & $10^4Q_{0.90}$ \\
 \midrule
 N2（已有） & 5.3 & 54 & 4.0 & 10.0132 & 4.8775 & $-1.1267$ & 0.204 & 0.239 \\
 C$^*$（待验证） & 5.1 & 45 & 4.5 & 9.9608 & 4.8375 & $-0.5400$ & 0.206 & 0.227 \\
 \bottomrule
 \end{tabular}
-\label{tab:q4robust}
+\refstepcounter{table}\label{tab:q4robust}
 \end{table}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.95\textwidth]{fig15_q4_bootstrap_difference.pdf}
-\caption{局部候选与最佳已有策略的配对Bootstrap退化差异}
-\label{fig:q4boot}
-\end{figure}
 
 \subsection{最终推荐及与典型长短寿命策略比较}
 
@@ -986,9 +1016,10 @@ C$^*$（待验证） & 5.1 & 45 & 4.5 & 9.9608 & 4.8375 & $-0.5400$ & 0.206 & 0.
 \begin{table}[H]
 \centering
 \footnotesize
-\caption{最终推荐、局部候选与问题一典型策略比较}
+\rowcolors{2}{TableAlt}{white}
 \begin{tabular}{clrrrrr}
 \toprule
+\rowcolor{TableHeader}
 代码 & 角色 & $T^{\mathrm{obs}}$/min & $T^{\mathrm{theo}}$/min & $10^4R_g$ & EOL/圈 & $10^4Q_{0.90}$ \\
 \midrule
 N2 & 最终推荐已有策略 & 10.043 & 10.013 & 0.217 & 1593 & 0.239 \\
@@ -997,7 +1028,7 @@ S3 & 典型短寿命（原结构） & 10.054 & 10.000 & 0.849 & 640 & -- \\
 C$^*$ & 局部待验证候选 & -- & 9.961 & -- & -- & 0.227 \\
 \bottomrule
 \end{tabular}
-\label{tab:q4recommend}
+\refstepcounter{table}\label{tab:q4recommend}
 \end{table}
 
 N6的观测退化速率比N2低约16.5\%，且基准EOL更高，但观测充电时间约多0.995 min；因此在强调约10分钟快充时N2更合适，若允许约1 min额外时间并优先压低退化，N6是备选。N2相对S3的观测退化速率低约74.5\%，基准EOL约为其2.49倍。S3虽与N6具有相同数值参数，却属于不同数据集和结构类别，因此数据集3的$(A,D)$回归没有被错误地移用到S3，表中不报告其鲁棒预测分位数。
@@ -1080,22 +1111,18 @@ Gao Y, Jiang J, Zhang C, et al. Lithium-ion battery aging mechanisms and life mo
 
 \subsection*{A. 逐电池关键结果}
 
-\input{../results/正式重跑_20260816_v4/问题1/q1_battery_table.tex}
+\input{q1_battery_table.tex}
 
-\subsection*{B. 文件结构}
+\subsection*{B. 论文与图形复现文件}
 
+本次整理后的交付包保留主论文、编译类文件、绘图脚本、绘图所需结果数据及全部图形导出文件：
 \begin{itemize}
-  \item \texttt{问题1（latest）(2).md}、\texttt{问题2（latest）(2).md}、\texttt{问题3（latest）(2).md}与\texttt{问题4（latest）.md}：四问的当前建模规范；仅定义口径、候选模型和裁决规则，不保存本轮实证数值；
-  \item \texttt{scripts/analysis\_pipeline.py}：数据校验、异常处理、Q1--Q3基础模型、交叉验证、置换检验与Bootstrap；
-  \item \texttt{scripts/eol\_v4\_final\_arbitration.py}：15候选联合裁决、Q3部分池化和未来斜率四基线比较；
-  \item \texttt{scripts/formal\_v4\_pipeline.py}：从原始CSV串联Q1--Q4并执行寿命传播审计；
-  \item \texttt{scripts/q4\_optimization.py}：经验Pareto、双重凸包局部网格、分离Bootstrap选择/验证和Q3一致性审计；
-  \item \texttt{tests/test\_q4\_optimization.py}：时间公式、Pareto支配、局部域与Bootstrap分位数的单元测试；
-  \item \texttt{scripts/make\_figures.R}：全部17幅中文论文图的R代码，同时导出PDF、SVG和400 dpi PNG；
-  \item \texttt{results/正式重跑\_20260816\_v4/summary.json}：四问正式主管线的核心结论和数值汇总；
-  \item 同目录的\texttt{问题1/问题2/问题3/问题4}：各问中间结果、交叉验证与最终预测；
-  \item \texttt{results/正式重跑\_20260816\_v4/Q1-Q4寿命结果全链路一致性审计.csv}：Q1寿命向Q2、Q4及Q3部分池化的逐项传播检查；
-  \item \texttt{figures\_generated\_v4/}：可编辑矢量图和高分辨率位图。
+  \item 主论文\texttt{.tex}与编译后的\texttt{.pdf}；
+  \item \texttt{cumcmthesis.cls}：论文版式类文件；
+  \item \texttt{figures\_generated\_v5/}：全部中文学术图，每幅图同时提供可编辑矢量PDF、SVG和高分辨率PNG；
+  \item \texttt{plot\_all\_figures.py}：统一配色、中文字体、流程图、热图、小提琴图、密度图、三维参数域和帕累托图的绘制脚本；
+  \item \texttt{data\_used/}：绘图脚本直接读取的正式结果CSV，保证图形可独立复现；
+  \item \texttt{README\_图表与编译说明.txt}：XeLaTeX编译方式、绘图复现命令和文件说明。
 \end{itemize}
 
 \subsection*{C. 关键计算顺序}
@@ -1112,7 +1139,7 @@ Gao Y, Jiang J, Zhang C, et al. Lithium-ion battery aging mechanisms and life mo
   \item 以九策略观测时间和稳定退化速率构造经验Pareto前沿；
   \item 在六个同类参数位置的原始参数凸包与$(A,D)$特征凸包交集中生成可实施网格，并施加近邻距离和10.0132 min理论时间预算；
   \item 用5000次Bootstrap选择$Q_{0.90}$最小候选，再用独立5000次Bootstrap、配对差和Q2 LOPO误差尺度决定是否升级为正式推荐；
-  \item 运行R脚本生成全部图形，再由XeLaTeX编译论文。
+  \item 运行Python绘图脚本生成全部中文学术图形，再由XeLaTeX编译论文。
 \end{enumerate}
 
 \end{document}

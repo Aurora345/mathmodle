@@ -151,12 +151,25 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
 % 每行缩进两个汉字
 \setlength\parindent{2em}
 % 设置字体
-\setmainfont{Times New Roman}
-%\setmonofont{Courier New}
-\setsansfont{Arial}
-\setCJKfamilyfont{kai}[AutoFakeBold]{simkai.ttf}
+\IfFontExistsTF{Times New Roman}
+  {\setmainfont{Times New Roman}}
+  {\IfFontExistsTF{Noto Serif}{\setmainfont{Noto Serif}}{\setmainfont{Latin Modern Roman}}}
+\IfFontExistsTF{Arial}
+  {\setsansfont{Arial}}
+  {\IfFontExistsTF{Noto Sans}{\setsansfont{Noto Sans}}{\setsansfont{Latin Modern Sans}}}
+\IfFontExistsTF{SimSun}
+  {\setCJKmainfont[AutoFakeBold]{SimSun}}
+  {\IfFontExistsTF{Noto Serif CJK SC}{\setCJKmainfont[AutoFakeBold]{Noto Serif CJK SC}}{\setCJKmainfont[AutoFakeBold]{FandolSong-Regular}}}
+\IfFontExistsTF{Arial Unicode MS}
+  {\setCJKsansfont[AutoFakeBold]{Arial Unicode MS}}
+  {\IfFontExistsTF{Noto Sans CJK SC}{\setCJKsansfont[AutoFakeBold]{Noto Sans CJK SC}}{\setCJKsansfont[AutoFakeBold]{FandolHei-Regular}}}
+\IfFontExistsTF{KaiTi}
+  {\setCJKfamilyfont{kai}[AutoFakeBold]{KaiTi}}
+  {\IfFontExistsTF{Noto Sans CJK SC}{\setCJKfamilyfont{kai}[AutoFakeBold]{Noto Sans CJK SC}}{\setCJKfamilyfont{kai}[AutoFakeBold]{FandolKai-Regular}}}
 \newcommand*{\kai}{\CJKfamily{kai}}
-\setCJKfamilyfont{song}[AutoFakeBold]{SimSun}
+\IfFontExistsTF{SimSun}
+  {\setCJKfamilyfont{song}[AutoFakeBold]{SimSun}}
+  {\IfFontExistsTF{Noto Serif CJK SC}{\setCJKfamilyfont{song}[AutoFakeBold]{Noto Serif CJK SC}}{\setCJKfamilyfont{song}[AutoFakeBold]{FandolSong-Regular}}}
 \newcommand*{\song}{\CJKfamily{song}}
 
 \renewcommand\normalsize{%
