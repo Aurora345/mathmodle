@@ -1,0 +1,34 @@
+{
+  "drawing_mode": "drawio",
+  "project_title": "锂离子电池快充策略对寿命衰减的影响建模与优化",
+  "data_figures": {
+    "source": "Python 顶刊绘图链路，沿用 latest.zip 已有结果",
+    "figures": [
+      {"file": "fig01_raw_vs_cleaned_soh.png", "question": "Q1", "desc": "异常处理前后 SOH 对比"},
+      {"file": "fig02_strategy_soh_curves.png", "question": "Q1", "desc": "九种策略前 150 圈 SOH 变化曲线"},
+      {"file": "fig03_strategy_stable_rate.png", "question": "Q1", "desc": "各策略稳定衰减率比较"},
+      {"file": "fig04_nested_lobo_validation.png", "question": "Q1", "desc": "嵌套 LOBO 模型选择验证"},
+      {"file": "fig05_strategy_baseline_eol.png", "question": "Q1", "desc": "九种策略基准估计寿命分布"},
+      {"file": "q2_fig01_policy_primary_auxiliary.png", "question": "Q2", "desc": "策略稳定衰减率与基准 EOL 分布"},
+      {"file": "q2_fig02_ad_design.png", "question": "Q2", "desc": "重参数化 A,D 设计空间"},
+      {"file": "q2_fig03_parameter_coefficients.png", "question": "Q2", "desc": "参数效应模型系数"},
+      {"file": "q2_fig04_lopo_stability.png", "question": "Q2", "desc": "LOPO 稳定性验证"},
+      {"file": "q2_fig05_soc_sensitivity.png", "question": "Q2", "desc": "SOC 分界点敏感性分析"},
+      {"file": "q2_fig06_mechanism_associations.png", "question": "Q2", "desc": "倍率参数与内阻温度充电时间关联"},
+      {"file": "fig01_oof_actual_vs_predicted.png", "question": "Q3", "desc": "嵌套 LOBO 样本外预测对比"},
+      {"file": "fig03_test_soh_trajectories.png", "question": "Q3", "desc": "九块测试电池 SOH 预测轨迹"},
+      {"file": "fig04_early_window_errors.png", "question": "Q3", "desc": "不同早期数据长度误差"},
+      {"file": "fig05_ablation_rmse.png", "question": "Q3", "desc": "特征消融实验 RMSE 对比"},
+      {"file": "fig06_test_eol_comparison.png", "question": "Q3", "desc": "九块测试电池 EOL 估计"},
+      {"file": "fig07_lifetime_mean_ir_validation.png", "question": "Q3", "desc": "完整寿命 IR 均值验证"}
+    ]
+  },
+  "non_data_figures": {
+    "mode": "drawio",
+    "note": "本项目沿用 latest.zip 已有图表，问题分析流程图由 Python 数据图替代（图 fig02_strategy_soh_curves.png 兼作问题分析总览），未额外生成 Draw.io 流程图；概念类提示词保留 2-4 份。",
+    "prompts": []
+  },
+  "bar_exception": null,
+  "three_d_evaluation": "已评估三维图可行性，当前数据以策略分组与轨迹预测为主，二维图已能清晰表达信息密度，不强制使用三维图。",
+  "pipeline_version": "latest_2_2026-08-15"
+}
